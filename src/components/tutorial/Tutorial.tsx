@@ -205,10 +205,10 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
           <div
             style={{
               position: 'relative',
-              width: getSpeechBubbleWidth(breakpoint),
+              maxWidth: getSpeechBubbleWidth(breakpoint),
               background: 'white',
               borderRadius: 8,
-              padding: 12,
+              padding: 8,
               textAlign: 'center',
               fontSize: getSpeechBubbleFontSize(breakpoint),
               height: 'fit-content',
@@ -235,7 +235,7 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
       ) : (
         <div
           style={{
-            width: getSpeechBubbleWidth(breakpoint),
+            maxWidth: getSpeechBubbleWidth(breakpoint),
             background: 'white',
             borderRadius: 8,
             padding: 12,
