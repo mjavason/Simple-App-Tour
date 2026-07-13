@@ -151,12 +151,12 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
             width: getPointerWidth(breakpoint),
             left: getPointerPosition(
               rects[0],
-              step.pointerPosition?.placement,
+              step.pointerPosition.placement,
               breakpoint,
             ).left,
             top: getPointerPosition(
               rects[0],
-              step.pointerPosition?.placement,
+              step.pointerPosition.placement,
               breakpoint,
             ).top,
             zIndex: 9999,
@@ -171,35 +171,23 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
             position: 'fixed',
             zIndex: 10000,
             display: 'flex',
-
-            left: characterPositions[step.characterPosition?.placement]?.left
-              ? characterPositions[step.characterPosition?.placement].left
-              : undefined,
-
-            right: characterPositions[step.characterPosition?.placement].right
-              ? characterPositions[step.characterPosition?.placement].right
-              : undefined,
-
-            bottom: characterPositions[step.characterPosition?.placement]
-              ?.bottom
-              ? characterPositions[step.characterPosition?.placement].bottom
-              : undefined,
-
+            left: characterPositions[step.characterPosition.placement]?.left,
+            right: characterPositions[step.characterPosition.placement]?.right,
+            bottom:
+              characterPositions[step.characterPosition.placement]?.bottom,
             flexDirection:
               textPositions[step.textPlacement ?? 'bottom'].flexDirection,
           }}
         >
           {/* Character */}
-          {step.characterPosition && (
-            <img
-              src={step.characterPosition.icon}
-              style={{
-                zIndex: 9999,
-                width: getCharacterWidth(breakpoint),
-              }}
-              className="pt-4"
-            />
-          )}
+          <img
+            src={step.characterPosition.icon}
+            style={{
+              zIndex: 9999,
+              width: getCharacterWidth(breakpoint),
+              paddingTop: 16,
+            }}
+          />
 
           {/* Speech bubble */}
           <div
@@ -218,13 +206,31 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
             {/* Tail */}
             <div style={getTailStyle(step.characterPosition.placement)} />
 
-            {step.title && <h3 className="pb-4 font-bold">{step.title}</h3>}
+            {step.title && (
+              <h3
+                style={{
+                  paddingBottom: 16,
+                  fontWeight: 'bold',
+                  zIndex: 10000,
+                }}
+              >
+                {step.title}
+              </h3>
+            )}
 
-            <p>{step.content}</p>
+            <p style={{ position: 'relative', zIndex: 10000 }}>{step.content}</p>
 
             {(!step.highlight?.action || step.highlight.action === 'none') && (
               <button
-                className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:cursor-pointer"
+                style={{
+                  marginTop: 16,
+                  borderRadius: 4,
+                  backgroundColor: '#3b82f6',
+                  padding: '8px 16px',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
                 onClick={next}
               >
                 {step.actionButtonText ?? 'Continue'}
@@ -245,18 +251,35 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
             height: 'fit-content',
           }}
         >
-          {step.title && <h3 className={`pb-4 font-bold`}>{step.title}</h3>}
+          {step.title && (
+            <h3
+              style={{
+                paddingBottom: 16,
+                fontWeight: 'bold',
+              }}
+            >
+              {step.title}
+            </h3>
+          )}
 
           <p>{step.content}</p>
 
-          {!step.highlight?.action || step.highlight.action === 'none' ? (
+          {(!step.highlight?.action || step.highlight.action === 'none') && (
             <button
-              className={`bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:cursor-pointer`}
+              style={{
+                backgroundColor: '#3b82f6',
+                color: '#fff',
+                padding: '8px 16px',
+                borderRadius: 4,
+                marginTop: 16,
+                border: 'none',
+                cursor: 'pointer',
+              }}
               onClick={next}
             >
               {step.actionButtonText ?? 'Continue'}
             </button>
-          ) : null}
+          )}
         </div>
       )}
     </>
