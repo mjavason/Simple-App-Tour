@@ -3,6 +3,7 @@ import PageContainer from '@/components/PageContainer';
 import { WelcomeSteps } from '@/components/tutorial/steps';
 import Tutorial from '@/components/tutorial/Tutorial';
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/test-tutorial')({
   component: RouteComponent,
@@ -28,10 +29,19 @@ const data = [
 ];
 
 function RouteComponent() {
+  const [isTutorialOpen, setIsTutorialOpen] = useState(true);
+
   return (
     <PageContainer title={'Simple App Tour'}>
       {/* <PositionPicker imageSrc={gHandOnWaist} /> */}
-      <Tutorial isOpen={true} steps={WelcomeSteps} />
+      <Tutorial
+        isOpen={isTutorialOpen}
+        steps={WelcomeSteps}
+        onFinish={() => {
+          setIsTutorialOpen(false);
+        }}
+      />
+
       <div className="flex flex-row gap-3 items-center justify-center h-[50vh]">
         {data.map((item) => (
           <a href={Routes['TEST TUTORIAL']} key={item.id}>

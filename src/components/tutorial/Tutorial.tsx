@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { characterPositions, textPositions } from './constants';
+import DefaultSpeechBubble from './DefaultSpeechBubble';
 import {
   getCharacterWidth,
   getPointerPosition,
   getPointerWidth,
-  getSpeechBubbleFontSize,
-  getSpeechBubbleWidth,
-  getTailStyle,
 } from './functions';
 import type { TutorialStep } from './types';
 import { useBreakpoint } from './useBreakpoint';
@@ -190,97 +188,25 @@ export default function Tutorial({ isOpen, steps, onFinish }: Props) {
           />
 
           {/* Speech bubble */}
-          <div
-            style={{
-              position: 'relative',
-              maxWidth: getSpeechBubbleWidth(breakpoint),
-              background: 'white',
-              borderRadius: 8,
-              padding: 8,
-              textAlign: 'center',
-              fontSize: getSpeechBubbleFontSize(breakpoint),
-              height: 'fit-content',
-              zIndex: 10000,
-            }}
-          >
-            {/* Tail */}
-            <div style={getTailStyle(step.characterPosition.placement)} />
-
-            {step.title && (
-              <h3
-                style={{
-                  paddingBottom: 16,
-                  fontWeight: 'bold',
-                  zIndex: 10000,
-                }}
-              >
-                {step.title}
-              </h3>
-            )}
-
-            <p style={{ position: 'relative', zIndex: 10000 }}>{step.content}</p>
-
-            {(!step.highlight?.action || step.highlight.action === 'none') && (
-              <button
-                style={{
-                  marginTop: 16,
-                  borderRadius: 4,
-                  backgroundColor: '#3b82f6',
-                  padding: '8px 16px',
-                  color: '#fff',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-                onClick={next}
-              >
-                {step.actionButtonText ?? 'Continue'}
-              </button>
-            )}
-          </div>
+          <DefaultSpeechBubble
+            title={step.title}
+            content={step.content}
+            buttonLabel={step.actionButtonText}
+            tailPlacement={step.characterPosition.placement}
+            breakpoint={breakpoint}
+            highlightAction={step.highlight?.action ?? 'none'}
+            onButtonClick={next}
+          />
         </div>
       ) : (
-        <div
-          style={{
-            maxWidth: getSpeechBubbleWidth(breakpoint),
-            background: 'white',
-            borderRadius: 8,
-            padding: 12,
-            zIndex: 10000,
-            textAlign: 'center',
-            fontSize: getSpeechBubbleFontSize(breakpoint),
-            height: 'fit-content',
-          }}
-        >
-          {step.title && (
-            <h3
-              style={{
-                paddingBottom: 16,
-                fontWeight: 'bold',
-              }}
-            >
-              {step.title}
-            </h3>
-          )}
-
-          <p>{step.content}</p>
-
-          {(!step.highlight?.action || step.highlight.action === 'none') && (
-            <button
-              style={{
-                backgroundColor: '#3b82f6',
-                color: '#fff',
-                padding: '8px 16px',
-                borderRadius: 4,
-                marginTop: 16,
-                border: 'none',
-                cursor: 'pointer',
-              }}
-              onClick={next}
-            >
-              {step.actionButtonText ?? 'Continue'}
-            </button>
-          )}
-        </div>
+        <DefaultSpeechBubble
+          title={step.title}
+          content={step.content}
+          buttonLabel={step.actionButtonText}
+          breakpoint={breakpoint}
+          highlightAction={step.highlight?.action ?? 'none'}
+          onButtonClick={next}
+        />
       )}
     </>
   );
